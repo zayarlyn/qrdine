@@ -1,0 +1,20 @@
+{
+	"files.exclude": {
+		"**/node_modules": true,
+		"**/dist": true,
+		"**/.next": true,
+		"**/next-env.d.ts": true
+	},
+	"sqltools.connections": [
+		{
+			"previewLimit": 50,
+			"server": "localhost",
+			"port": 5432,
+			"driver": "PostgreSQL",
+			"name": "fsafs",
+			"database": "kokofu",
+			"username": "root",
+			"password": "root"
+		}
+	]
+}

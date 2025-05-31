@@ -1,0 +1,57 @@
+# env used here need to pass  via `docker compose --env-file=`
+services:
+  # -------------- nestjs --------------
+  # central-api:
+  #   container_name: central-api
+
+  #   build:
+  #     context: ./apps/central-api
+  #     dockerfile: Dockerfile
+
+  #   env_file:
+  #     - ./apps/central-api/.env # runtime env
+
+  #   ports:
+  #     - '${API_PORT}:${API_PORT}'
+
+  #   volumes:
+  #     - ./apps/central-api:/usr/src/app
+  #     - /usr/src/app/node_modules
+
+  #   depends_on:
+  #     - postgres-db
+
+  # -------------- postgres --------------
+  postgres-db:
+    container_name: postgres-db
+    image: postgres
+    # restart: always
+
+    ports:
+      - ${DB_POSTGRES_PORT}:${DB_POSTGRES_PORT}
+
+    environment:
+      POSTGRES_USER: '${DB_POSTGRES_USER}'
+      POSTGRES_PASSWORD: '${DB_POSTGRES_PWD}'
+      POSTGRES_DB: '${DB_POSTGRES_DEFAULT_DB}'
+
+  # -------------- menu-order-web --------------
+  # menu-order-web:
+  #   container_name: menu-order-web
+
+  #   build:
+  #     context: ./apps/menu-order-web
+  #     dockerfile: Dockerfile
+
+  #   env_file:
+  #     - ./apps/central-api/.env # runtime env
+
+  #   ports:
+  #     - '${MENU_ORDER_WEB_PORT}:${MENU_ORDER_WEB_PORT}'
+
+  #   volumes:
+  #     - ./apps/menu-order-web:/app
+  #     - /app/node_modules
+
+  #   depends_on:
+  #     - central-api
