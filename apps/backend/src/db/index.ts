@@ -6,7 +6,7 @@ import fp from 'fastify-plugin'
 const dbPlugin = fp(async (app) => {
 	const dialect = new PostgresDialect({
 		pool: new Pool({
-			database: 'kokofu',
+			database: 'qrdine',
 			host: 'localhost',
 			user: 'root',
 			password: 'root',
