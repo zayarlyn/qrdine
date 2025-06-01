@@ -1,7 +1,7 @@
 import { arg, extendType, nonNull, objectType } from 'nexus'
 import { menuTable } from '../../db/types.ts'
 import { type GraphQLContext } from '../index.ts'
-import { Menu } from '../types.ts'
+import { MenuType } from '../types.ts'
 
 export const menuListQuery = extendType({
 	type: 'Query',
@@ -10,7 +10,7 @@ export const menuListQuery = extendType({
 			type: objectType({
 				name: 'menuListQueryResult',
 				definition(t) {
-					t.nonNull.list.nonNull.field('items', { type: Menu })
+					t.nonNull.list.nonNull.field('items', { type: MenuType })
 					t.nonNull.int('count')
 				},
 			}),
@@ -22,7 +22,6 @@ export const menuListQuery = extendType({
 
 				const items = await db.query.menuTable.findMany({
 					where: helper.drizzle.conditions(menuTable, args.where),
-					// with: {},
 				})
 				console.log(items)
 

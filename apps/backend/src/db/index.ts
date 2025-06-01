@@ -24,11 +24,3 @@ const dbPlugin = fp(async (app) => {
 })
 
 export default dbPlugin
-
-declare module 'fastify' {
-	interface FastifyInstance {
-		db: NodePgDatabase<typeof schema> & {
-			$client: Pool
-		}
-	}
-}

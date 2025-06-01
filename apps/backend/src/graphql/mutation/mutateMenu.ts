@@ -1,13 +1,13 @@
 import { arg, extendType, nonNull } from 'nexus'
 import { type GraphQLContext } from '../index.ts'
-import { Menu } from '../types.ts'
 import { menuTable } from '../../db/types.ts'
+import { MenuType } from '../types.ts'
 
 export const mutateMenu = extendType({
 	type: 'Mutation',
 	definition(t) {
 		t.nonNull.field('mutateMenu', {
-			type: Menu,
+			type: MenuType,
 			args: {
 				id: arg({ type: 'ID' }),
 				values: arg({ type: nonNull('Json') }),

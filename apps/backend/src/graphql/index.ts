@@ -2,7 +2,7 @@ import { type FastifyInstance } from 'fastify'
 import fp from 'fastify-plugin'
 import mercurius from 'mercurius'
 import { makeSchema } from 'nexus'
-import { Menu, Order, OrderItem, Seat, Staff } from './types.ts'
+import { MenuType, OrderType, OrderItemType, SeatType, StaffType } from './types.ts'
 import { menuListQuery } from './query/menuListQuery.ts'
 import { mutateMenu } from './mutation/mutateMenu.ts'
 import { JsonScalar } from './JsonScalar.ts'
@@ -10,7 +10,7 @@ import { mutateOrder } from './mutation/mutateOrder.ts'
 import { orderListQuery } from './query/orderListQuery.ts'
 
 const graphQlPlugin = fp(async (app) => {
-	const types = [Menu, Order, OrderItem, Seat, Staff]
+	const types = [MenuType, OrderType, OrderItemType, SeatType, StaffType]
 	const scalars = [JsonScalar]
 	const queries = [menuListQuery, orderListQuery]
 	const mutations = [mutateMenu, mutateOrder]

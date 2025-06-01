@@ -7,8 +7,8 @@ const dateTimeFields = (t: ObjectDefinitionBlock<any>) => {
 	t.string('deletedAt', { resolve: (parent) => parent.deletedAt?.toISOString() })
 }
 
-export const Menu = objectType({
-	name: 'Menu',
+export const MenuType = objectType({
+	name: 'MenuType',
 	definition(t) {
 		t.nonNull.string('id')
 		t.nonNull.string('name')
@@ -19,8 +19,8 @@ export const Menu = objectType({
 	},
 })
 
-export const Order = objectType({
-	name: 'Order',
+export const OrderType = objectType({
+	name: 'OrderType',
 	definition(t) {
 		t.nonNull.string('id')
 		t.nonNull.string('name')
@@ -29,12 +29,12 @@ export const Order = objectType({
 		t.float('paid')
 		t.float('total')
 		dateTimeFields(t)
-		t.nonNull.list.nonNull.field('orderItems', { type: OrderItem })
+		t.nonNull.list.nonNull.field('orderItems', { type: OrderItemType })
 	},
 })
 
-export const OrderItem = objectType({
-	name: 'OrderItem',
+export const OrderItemType = objectType({
+	name: 'OrderItemType',
 	definition(t) {
 		t.nonNull.string('id')
 		t.nonNull.string('menuId')
@@ -46,8 +46,8 @@ export const OrderItem = objectType({
 	},
 })
 
-export const Seat = objectType({
-	name: 'Seat',
+export const SeatType = objectType({
+	name: 'SeatType',
 	definition(t) {
 		t.nonNull.string('id')
 		t.nonNull.string('name')
@@ -55,8 +55,8 @@ export const Seat = objectType({
 	},
 })
 
-export const Staff = objectType({
-	name: 'Staff',
+export const StaffType = objectType({
+	name: 'StaffType',
 	definition(t) {
 		t.nonNull.string('id')
 		t.nonNull.string('name')

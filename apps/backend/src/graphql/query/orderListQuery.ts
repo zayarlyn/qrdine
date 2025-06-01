@@ -1,7 +1,7 @@
 import { arg, extendType, nonNull, objectType } from 'nexus'
 import { orderTable } from '../../db/types.ts'
 import { type GraphQLContext } from '../index.ts'
-import { Order } from '../types.ts'
+import { OrderType } from '../types.ts'
 
 export const orderListQuery = extendType({
 	type: 'Query',
@@ -10,7 +10,7 @@ export const orderListQuery = extendType({
 			type: objectType({
 				name: 'orderListQueryResult',
 				definition(t) {
-					t.nonNull.list.nonNull.field('items', { type: Order })
+					t.nonNull.list.nonNull.field('items', { type: OrderType })
 					t.nonNull.int('count')
 				},
 			}),
@@ -24,7 +24,6 @@ export const orderListQuery = extendType({
 					where: helper.drizzle.conditions(orderTable, args.where),
 					with: { orderItems: true },
 				})
-				console.log(items[4]?.orderItems)
 
 				return { items, count: items.length }
 			},
