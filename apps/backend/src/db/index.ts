@@ -1,25 +1,21 @@
-import { Pool } from 'pg'
-import { Kysely, PostgresDialect } from 'kysely'
-import type { DB } from './types.ts'
+import { drizzle, NodePgDatabase } from 'drizzle-orm/node-postgres'
 import fp from 'fastify-plugin'
+import { Pool } from 'pg'
+import * as schema from './types.ts'
 
 const dbPlugin = fp(async (app) => {
-	const dialect = new PostgresDialect({
-		pool: new Pool({
+	const db = drizzle({
+		client: new Pool({
 			database: 'qrdine',
 			host: 'localhost',
 			user: 'root',
 			password: 'root',
 			port: 5432,
-			max: 10, // Start with 10 for most applications
-			min: 2, // Minimum 2 connections always ready
+			max: 10,
 			idleTimeoutMillis: 30000,
-			connectionTimeoutMillis: 2000, // Fail fast if can't connect
+			connectionTimeoutMillis: 2000,
 		}),
-	})
-
-	const db = new Kysely<DB>({
-		dialect,
+		schema,
 	})
 
 	app.decorate('db', db)
@@ -31,6 +27,8 @@ export default dbPlugin
 
 declare module 'fastify' {
 	interface FastifyInstance {
-		db: Kysely<DB>
+		db: NodePgDatabase<typeof schema> & {
+			$client: Pool
+		}
 	}
 }

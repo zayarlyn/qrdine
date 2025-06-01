@@ -7,7 +7,7 @@
 		"doc": "doc"
 	},
 	"scripts": {
-		"dev": "docker compose --env-file ./apps/backend/.env up --build"
+		"docker": "docker compose up --build"
 	},
 	"keywords": [],
 	"author": "",

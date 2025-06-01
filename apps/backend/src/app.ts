@@ -7,7 +7,7 @@ const buildApp = async () => {
 		},
 	})
 
-	app.register(import('./helper.plugin.ts'))
+	app.register(import('./plugins/helper.plugin.ts'))
 	app.register(import('./db/index.ts'))
 	app.register(import('./graphql/index.ts'))
 

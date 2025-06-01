@@ -1,8 +1,9 @@
 import { arg, extendType, nonNull } from 'nexus'
 import { type GraphQLContext } from '../index.ts'
 import { Menu } from '../types.ts'
+import { menuTable } from '../../db/types.ts'
 
-export const mutateMenuMutation = extendType({
+export const mutateMenu = extendType({
 	type: 'Mutation',
 	definition(t) {
 		t.nonNull.field('mutateMenu', {
@@ -14,12 +15,11 @@ export const mutateMenuMutation = extendType({
 			resolve: async (_, args, context: GraphQLContext) => {
 				const { db, helper } = context.app
 
-				return db.transaction().execute(async (trx) => {
-					const item = await trx
-						.insertInto('menu')
+				return db.transaction(async (trx) => {
+					const [item] = await trx
+						.insert(menuTable)
 						.values({ id: helper.genUlid(), ...args.values })
-						.returningAll()
-						.executeTakeFirstOrThrow()
+						.returning()
 
 					return item
 				})

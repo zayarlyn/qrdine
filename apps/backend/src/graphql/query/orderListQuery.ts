@@ -1,16 +1,16 @@
 import { arg, extendType, nonNull, objectType } from 'nexus'
-import { menuTable } from '../../db/types.ts'
+import { orderTable } from '../../db/types.ts'
 import { type GraphQLContext } from '../index.ts'
-import { Menu } from '../types.ts'
+import { Order } from '../types.ts'
 
-export const menuListQuery = extendType({
+export const orderListQuery = extendType({
 	type: 'Query',
 	definition(t) {
-		t.nonNull.field('menuList', {
+		t.nonNull.field('orderList', {
 			type: objectType({
-				name: 'menuListQueryResult',
+				name: 'orderListQueryResult',
 				definition(t) {
-					t.nonNull.list.nonNull.field('items', { type: Menu })
+					t.nonNull.list.nonNull.field('items', { type: Order })
 					t.nonNull.int('count')
 				},
 			}),
@@ -20,11 +20,11 @@ export const menuListQuery = extendType({
 			resolve: async (_, args, context: GraphQLContext) => {
 				const { db, helper } = context.app
 
-				const items = await db.query.menuTable.findMany({
-					where: helper.drizzle.conditions(menuTable, args.where),
-					// with: {},
+				const items = await db.query.orderTable.findMany({
+					where: helper.drizzle.conditions(orderTable, args.where),
+					with: { orderItems: true },
 				})
-				console.log(items)
+				console.log(items[4]?.orderItems)
 
 				return { items, count: items.length }
 			},

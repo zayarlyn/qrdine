@@ -4,14 +4,16 @@ import mercurius from 'mercurius'
 import { makeSchema } from 'nexus'
 import { Menu, Order, OrderItem, Seat, Staff } from './types.ts'
 import { menuListQuery } from './query/menuListQuery.ts'
-import { mutateMenuMutation } from './mutation/mutateMenuMutation.ts'
+import { mutateMenu } from './mutation/mutateMenu.ts'
 import { JsonScalar } from './JsonScalar.ts'
+import { mutateOrder } from './mutation/mutateOrder.ts'
+import { orderListQuery } from './query/orderListQuery.ts'
 
 const graphQlPlugin = fp(async (app) => {
 	const types = [Menu, Order, OrderItem, Seat, Staff]
 	const scalars = [JsonScalar]
-	const queries = [menuListQuery]
-	const mutations = [mutateMenuMutation]
+	const queries = [menuListQuery, orderListQuery]
+	const mutations = [mutateMenu, mutateOrder]
 
 	app.register(mercurius, {
 		schema: makeSchema({ types: [...types, ...scalars, ...queries, ...mutations] }),
