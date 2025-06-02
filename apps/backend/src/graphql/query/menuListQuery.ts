@@ -1,19 +1,15 @@
-import { arg, extendType, nonNull, objectType } from 'nexus'
+import { arg, extendType, nonNull } from 'nexus'
 import { menuTable } from '../../db/types.ts'
 import { type GraphQLContext } from '../index.ts'
-import { MenuType } from '../types.ts'
+import { createQueryResultType, MenuType } from '../types.ts'
+
+const queryName = 'menuList'
 
 export const menuListQuery = extendType({
 	type: 'Query',
 	definition(t) {
-		t.nonNull.field('menuList', {
-			type: objectType({
-				name: 'menuListQueryResult',
-				definition(t) {
-					t.nonNull.list.nonNull.field('items', { type: MenuType })
-					t.nonNull.int('count')
-				},
-			}),
+		t.nonNull.field(queryName, {
+			type: createQueryResultType(MenuType, queryName),
 			args: {
 				where: arg({ type: nonNull('Json') }),
 			},

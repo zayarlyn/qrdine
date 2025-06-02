@@ -1,5 +1,5 @@
 import { objectType } from 'nexus'
-import { type ObjectDefinitionBlock } from 'nexus/dist/core.js'
+import type { NexusObjectTypeDef, ObjectDefinitionBlock } from 'nexus/dist/core.js'
 
 const dateTimeFields = (t: ObjectDefinitionBlock<any>) => {
 	t.nonNull.string('createdAt', { resolve: (parent) => parent.createdAt.toISOString() })
@@ -63,3 +63,12 @@ export const StaffType = objectType({
 		dateTimeFields(t)
 	},
 })
+
+export const createQueryResultType = (type: NexusObjectTypeDef<any>, name: string) =>
+	objectType({
+		name: name + 'QueryResult',
+		definition(t) {
+			t.nonNull.list.nonNull.field('items', { type })
+			t.nonNull.int('count')
+		},
+	})

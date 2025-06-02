@@ -1,6 +1,6 @@
 import { arg, extendType, nonNull } from 'nexus'
-import { type GraphQLContext } from '../index.ts'
 import { menuTable } from '../../db/types.ts'
+import { type GraphQLContext } from '../index.ts'
 import { MenuType } from '../types.ts'
 
 export const mutateMenu = extendType({
@@ -15,7 +15,7 @@ export const mutateMenu = extendType({
 			resolve: async (_, args, context: GraphQLContext) => {
 				const { db, helper } = context.app
 
-				return db.transaction(async (trx) => {
+				return helper.drizzle.catchTransaction(async (trx) => {
 					const [item] = await trx
 						.insert(menuTable)
 						.values({ id: helper.genUlid(), ...args.values })

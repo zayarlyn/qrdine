@@ -7,12 +7,13 @@ const buildApp = async () => {
 		},
 	})
 
-	app.register(import('./plugins/helper.plugin.ts'))
-	app.register(import('./db/index.ts'))
-	app.register(import('./graphql/index.ts'))
+	await app.register(import('./plugins/config.plugin.ts'))
+	await app.register(import('./plugins/helper.plugin.ts'))
+	await app.register(import('./db/index.ts'))
+	await app.register(import('./graphql/index.ts'))
 
 	try {
-		await app.listen({ port: 5000 })
+		await app.listen({ port: app.config.port })
 	} catch (err) {
 		app.log.error(err)
 		// exit to prevent memory leak

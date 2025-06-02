@@ -4,6 +4,7 @@ import { type PgTransaction } from 'drizzle-orm/pg-core'
 import type { ULIDFactory } from 'ulid'
 import { z } from 'zod/v4'
 import * as schemas from './db/types.ts'
+import { type Config } from './plugins/config.plugin.ts'
 
 export type Transaction = PgTransaction<
 	NodePgQueryResultHKT,
@@ -14,6 +15,7 @@ export type Transaction = PgTransaction<
 declare module 'fastify' {
 	interface FastifyInstance {
 		db: NodePgDatabase<typeof schemas>
+		config: Config
 		helper: {
 			genUlid: ULIDFactory
 			drizzle: {
