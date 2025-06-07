@@ -6,19 +6,28 @@
 		"dev": "next dev --port 3010",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"codegen": "graphql-codegen",
+		"codegen:watch": "graphql-codegen -w"
 	},
 	"dependencies": {
+		"@apollo/client": "^3.13.8",
+		"@mantine/core": "^8.0.2",
+		"@mantine/hooks": "^8.0.2",
+		"graphql": "^16.11.0",
+		"lucide-react": "^0.513.0",
+		"next": "15.3.3",
 		"react": "^19.0.0",
-		"react-dom": "^19.0.0",
-		"next": "15.3.3"
+		"react-dom": "^19.0.0"
 	},
 	"devDependencies": {
-		"typescript": "^5",
+		"@graphql-codegen/cli": "^5.0.6",
+		"@graphql-codegen/client-preset": "^4.8.1",
+		"@tailwindcss/postcss": "^4",
 		"@types/node": "^20",
 		"@types/react": "^19",
 		"@types/react-dom": "^19",
-		"@tailwindcss/postcss": "^4",
-		"tailwindcss": "^4"
+		"tailwindcss": "^4",
+		"typescript": "^5"
 	}
 }

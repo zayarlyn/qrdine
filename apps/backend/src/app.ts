@@ -1,4 +1,5 @@
 import fastify from 'fastify'
+import cors from '@fastify/cors'
 
 const buildApp = async () => {
 	const app = fastify({
@@ -6,6 +7,8 @@ const buildApp = async () => {
 			transport: { target: 'pino-pretty', options: { colorize: true } },
 		},
 	})
+
+	await app.register(cors, {})
 
 	await app.register(import('./plugins/config.plugin.ts'))
 	await app.register(import('./plugins/helper.plugin.ts'))
