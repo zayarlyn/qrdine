@@ -8,3 +8,5 @@
 - [2025-05-24] add constraint `UNIQUE (user_id, role_id)` to order_item to ensure no duplicate menu in one order
 - [2025-05-25] integrate zod for inline-validation
 - [2025-05-26] decided to retire multi-database approach and use multi-schema approach instead
+
+- [2025-06-08] added `order_item_group` table to support order item grouping for kitchen display

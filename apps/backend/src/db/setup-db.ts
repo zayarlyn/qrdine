@@ -5,7 +5,7 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 import { Pool } from 'pg'
 import { cwd } from 'process'
-import { menuTable, seatTable, staffTable } from './types.ts'
+import { menuTable, orderTable, seatTable, staffTable } from './types.ts'
 
 const getDb = (name: string) => {
 	const pool = new Pool({
@@ -55,12 +55,43 @@ const main = async () => {
 				description: faker.food.description(),
 				price: faker.commerce.price(),
 			},
+			{
+				id: '01JVYZE7P5H7ZBYCH6BMN87TMC',
+				name: faker.food.dish(),
+				description: faker.food.description(),
+				price: faker.commerce.price(),
+			},
+			{
+				id: '01JVYZE7P5H7ZBYCH6BMN87TMA',
+				name: faker.food.dish(),
+				description: faker.food.description(),
+				price: faker.commerce.price(),
+			},
 		])
 
-		await tx.insert(seatTable).values({
-			id: '01JVYZE7P5H7ZBYCH6BMN87TME',
-			name: faker.commerce.productName(),
-		})
+		await tx.insert(seatTable).values([
+			{
+				id: '01JVYZE7P5H7ZBYCH6BMN87TME',
+				name: faker.commerce.productName(),
+			},
+			{
+				id: '01JVYZE7P5H7ZBYCH6BMN87TMF',
+				name: faker.commerce.productName(),
+			},
+		])
+
+		await tx.insert(orderTable).values([
+			{
+				id: '01JVYZE7P5H7ZBYCH6BMN87TMF',
+				seatId: '01JVYZE7P5H7ZBYCH6BMN87TME',
+				name: faker.person.fullName(),
+			},
+			{
+				id: '01JVYZE7P5H7ZBYCH6BMN87TMG',
+				seatId: '01JVYZE7P5H7ZBYCH6BMN87TMF',
+				name: faker.person.fullName(),
+			},
+		])
 	})
 
 	console.log('<--- [2/2] Seeded db 🥳 --->')

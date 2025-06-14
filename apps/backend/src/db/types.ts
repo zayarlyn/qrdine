@@ -19,8 +19,8 @@ export const menuTable = pgTable('menu', {
 export const orderTable = pgTable('order', {
 	id: text('id').primaryKey(),
 	name: text('name').notNull(),
-	staffId: text('staff_id').notNull(),
-	seatId: text('seat_id'),
+	staffId: text('staff_id'),
+	seatId: text('seat_id').notNull(),
 	total: numeric('total'),
 	paid: numeric('paid'),
 	createdAt: timestamp('created_at').defaultNow(),
@@ -38,6 +38,7 @@ export const orderRelations = relations(orderTable, ({ one, many }) => ({
 		references: [seatTable.id],
 	}),
 	orderItems: many(orderItemTable),
+	orderItemGroups: many(orderItemGroupTable),
 }))
 
 export const orderItemTable = pgTable('order_item', {
@@ -50,7 +51,9 @@ export const orderItemTable = pgTable('order_item', {
 		.references(() => menuTable.id),
 	menuPrice: numeric('menu_price').notNull(),
 	quantity: integer('quantity').notNull(),
-	status: text('status').notNull(),
+	groupId: text('group_id')
+		.notNull()
+		.references(() => orderItemGroupTable.id),
 	createdAt: timestamp('created_at').defaultNow(),
 	updatedAt: timestamp('updated_at').defaultNow(),
 	deletedAt: timestamp('deleted_at'),
@@ -64,6 +67,10 @@ export const orderItemRelations = relations(orderItemTable, ({ one }) => ({
 	menu: one(menuTable, {
 		fields: [orderItemTable.menuId],
 		references: [menuTable.id],
+	}),
+	orderItemGroup: one(orderItemGroupTable, {
+		fields: [orderItemTable.groupId],
+		references: [orderItemGroupTable.id],
 	}),
 }))
 
@@ -89,4 +96,23 @@ export const staffTable = pgTable('staff', {
 
 export const staffRelations = relations(staffTable, ({ many }) => ({
 	orders: many(orderTable),
+}))
+
+export const orderItemGroupTable = pgTable('order_item_group', {
+	id: text('id').primaryKey(),
+	status: text('status').notNull(),
+	orderId: text('order_id')
+		.notNull()
+		.references(() => orderTable.id),
+	createdAt: timestamp('created_at').defaultNow(),
+	updatedAt: timestamp('updated_at').defaultNow(),
+	deletedAt: timestamp('deleted_at'),
+})
+
+export const orderItemGroupRelations = relations(orderItemGroupTable, ({ one, many }) => ({
+	order: one(orderTable, {
+		fields: [orderItemGroupTable.orderId],
+		references: [orderTable.id],
+	}),
+	orderItems: many(orderItemTable),
 }))

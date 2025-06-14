@@ -21,6 +21,13 @@ declare module 'fastify' {
 			drizzle: {
 				conditions: (table: any, where: any) => SQL<unknown>
 				catchTransaction: (fn: (trx: Transaction) => any) => any
+				findOneOrCreate: (
+					trx: Transaction,
+					tableName: keyof Transaction['query'],
+					where: any,
+					values: any
+				) => Promise<any>
+				updateOrCreate: (trx: Transaction, table: keyof Transaction['query'], where: any, values: any) => Promise<any>
 			}
 			validate: (object: any, schema: z.ZodType) => any
 		}

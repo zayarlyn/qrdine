@@ -12,6 +12,7 @@
 	},
 	"dependencies": {
 		"@apollo/client": "^3.13.8",
+		"@formkit/auto-animate": "^0.8.2",
 		"@mantine/core": "^8.0.2",
 		"@mantine/hooks": "^8.0.2",
 		"graphql": "^16.11.0",

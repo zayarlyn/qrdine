@@ -24,7 +24,7 @@ export default function RootLayout({
 			<head>
 				<ColorSchemeScript />
 			</head>
-			<body>
+			<body className=''>
 				<UniversalProvider>{children}</UniversalProvider>
 			</body>
 		</html>

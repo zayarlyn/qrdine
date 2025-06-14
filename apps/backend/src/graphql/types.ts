@@ -24,12 +24,14 @@ export const OrderType = objectType({
 	definition(t) {
 		t.nonNull.string('id')
 		t.nonNull.string('name')
-		t.nonNull.string('staffId')
-		t.string('seatId')
+		t.string('staffId')
+		t.nonNull.string('seatId')
 		t.float('paid')
 		t.float('total')
 		dateTimeFields(t)
 		t.nonNull.list.nonNull.field('orderItems', { type: OrderItemType })
+		t.nonNull.list.nonNull.field('orderItemGroups', { type: OrderItemGroupType })
+		t.nonNull.field('seat', { type: 'SeatType' })
 	},
 })
 
@@ -39,9 +41,9 @@ export const OrderItemType = objectType({
 		t.nonNull.string('id')
 		t.nonNull.string('menuId')
 		t.nonNull.string('orderId')
+		t.nonNull.string('groupId')
 		t.nonNull.float('menuPrice')
 		t.nonNull.int('quantity')
-		t.nonNull.string('status')
 		dateTimeFields(t)
 	},
 })
@@ -60,6 +62,18 @@ export const StaffType = objectType({
 	definition(t) {
 		t.nonNull.string('id')
 		t.nonNull.string('name')
+		dateTimeFields(t)
+	},
+})
+
+export const OrderItemGroupType = objectType({
+	name: 'OrderItemGroupType',
+	definition(t) {
+		t.nonNull.string('id')
+		t.nonNull.string('status')
+		t.nonNull.string('orderId')
+		t.nonNull.list.nonNull.field('orderItems', { type: OrderItemType })
+		t.nonNull.field('order', { type: OrderType })
 		dateTimeFields(t)
 	},
 })
