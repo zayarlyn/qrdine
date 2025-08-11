@@ -1,0 +1,27 @@
+# env used here need to pass  via `docker compose --env-file=`
+services:
+  # -------------- postgres --------------
+  postgres-db:
+    container_name: postgres-dev
+    image: postgres
+    env_file:
+      - './.env'
+    ports:
+      - '${DB_POSTGRES_PORT}:${DB_POSTGRES_PORT}'
+    environment:
+      POSTGRES_USER: ${DB_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${DB_POSTGRES_PWD}
+
+  qrdine-api:
+    container_name: qrdine-api-dev
+    build:
+      context: ./apps/api
+    env_file:
+      - './.env'
+    ports:
+      - '${API_PORT}:${API_PORT}'
+    volumes:
+      - ./apps/api:/app
+      - /apps/api/node_modules
+    environment:
+      NODE_ENV: development
