@@ -1,0 +1,85 @@
+CREATE TABLE "menu" (
+  id CHAR(26) PRIMARY KEY,
+
+  name VARCHAR(50) NOT NULL,
+  description VARCHAR(255) DEFAULT NULL,
+  price DECIMAL(10, 2) NOT NULL,
+  available BOOLEAN DEFAULT TRUE,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  deleted_at TIMESTAMP DEFAULT NULL 
+);
+
+CREATE TABLE "staff" (
+  id CHAR(26) PRIMARY KEY,
+
+  name VARCHAR(50) NOT NULL,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  deleted_at TIMESTAMP DEFAULT NULL 
+);
+
+CREATE TABLE "seat" (
+  id CHAR(26) PRIMARY KEY,
+
+  name VARCHAR(50) NOT NULL,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  deleted_at TIMESTAMP DEFAULT NULL 
+);
+
+CREATE TABLE "order" (
+  id CHAR(26) PRIMARY KEY,
+
+  name VARCHAR(50) NOT NULL,
+  total DECIMAL(10, 2) DEFAULT 0,
+  paid DECIMAL(10, 2) DEFAULT NULL,
+
+  seat_id CHAR(26) NOT NULL,
+  staff_id CHAR(26),
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  deleted_at TIMESTAMP DEFAULT NULL, 
+
+  FOREIGN KEY (staff_id) REFERENCES "staff"(id),
+  FOREIGN KEY (seat_id) REFERENCES "seat"(id)
+);
+
+CREATE TABLE "order_item_group" (
+  id CHAR(26) PRIMARY KEY,
+
+  status VARCHAR(10) NOT NULL,
+
+  order_id CHAR(26) NOT NULL,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  deleted_at TIMESTAMP DEFAULT NULL,
+
+  FOREIGN KEY (order_id) REFERENCES "order"(id)
+);
+
+CREATE TABLE "order_item" (
+  id CHAR(26) PRIMARY KEY,
+
+  quantity INT NOT NULL,
+  menu_price DECIMAL(10,2) NOT NULL,
+
+  menu_id CHAR(26) NOT NULL,
+  order_id CHAR(26) NOT NULL,
+  group_id CHAR(26) DEFAULT NULL,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  deleted_at TIMESTAMP DEFAULT NULL,
+
+  FOREIGN KEY (menu_id) REFERENCES "menu"(id),
+  FOREIGN KEY (order_id) REFERENCES "order"(id),
+  FOREIGN KEY (group_id) REFERENCES "order_item_group"(id),
+
+  UNIQUE (menu_id, group_id)
+);

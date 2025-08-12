@@ -1,6 +1,6 @@
 import fastify from 'fastify'
 import cors from '@fastify/cors'
-import { type Config } from './plugins/config.plugin.ts'
+import { type Config } from './configs/env.config.ts'
 
 const buildApp = async () => {
 	const app = fastify({
@@ -21,7 +21,6 @@ const buildApp = async () => {
 	})
 
 	try {
-		console.log('mojo')
 		await app.listen({ port: app.config.port, host: '0.0.0.0' })
 	} catch (err) {
 		app.log.error(err)

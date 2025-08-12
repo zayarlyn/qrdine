@@ -6,7 +6,9 @@
 	"scripts": {
 		"dev": "nodemon ./src/app.ts",
 		"build": "tsc",
-		"start": "node dist/app.js"
+		"start": "node dist/app.js",
+		"setup-db": "node src/commands/setup-db.ts",
+		"drizzle-studio": "npx drizzle-kit studio --config ./src/configs/drizzle-kit.config.ts"
 	},
 	"keywords": [],
 	"author": "",
