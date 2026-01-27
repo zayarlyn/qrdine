@@ -12,7 +12,7 @@ import { MyGraphQLModule } from './graphql/graphql.module'
       load: [loadAppConfig, loadDbConfig],
     }),
     DbModule,
-    // MyGraphQLModule,
+    MyGraphQLModule,
   ],
   controllers: [],
   providers: [],
