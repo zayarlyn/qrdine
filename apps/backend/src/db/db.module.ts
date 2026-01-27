@@ -1,6 +1,11 @@
-import { Module, OnModuleInit } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { Module, OnModuleInit } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { Menu } from './entities/MenuEntity'
+import { Order } from './entities/OrderEntity'
+import { OrderItem } from './entities/OrderItemEntity'
+import { Seat } from './entities/SeatEntity'
+import { Staff } from './entities/StaffEntity'
 
 @Module({
   controllers: [],
@@ -9,7 +14,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         url: configService.get<string>('db.url'),
-        entities: [],
+        entities: [Menu, Order, OrderItem, Seat, Staff],
       }),
       inject: [ConfigService],
     }),
@@ -17,6 +22,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 })
 export class DbModule implements OnModuleInit {
   onModuleInit() {
-    console.log('🚀 Database module initialized');
+    console.log('🚀 Database module initialized')
   }
 }

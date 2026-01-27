@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
-import { DbModule } from './db/db.module';
-import { ConfigModule } from '@nestjs/config';
-import { loadAppConfig } from './config/app.config';
-import { loadDbConfig } from './config/db.config';
+import { Module } from '@nestjs/common'
+import { DbModule } from './db/db.module'
+import { ConfigModule } from '@nestjs/config'
+import { loadAppConfig } from './config/app.config'
+import { loadDbConfig } from './config/db.config'
+import { MyGraphQLModule } from './graphql/graphql.module'
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { loadDbConfig } from './config/db.config';
       load: [loadAppConfig, loadDbConfig],
     }),
     DbModule,
+    // MyGraphQLModule,
   ],
   controllers: [],
   providers: [],
