@@ -1,11 +1,4 @@
-import {
-  Field,
-  FieldOptions,
-  ID,
-  ObjectType,
-  ObjectTypeOptions,
-  ReturnTypeFunc,
-} from '@nestjs/graphql'
+import { Field, FieldOptions, ID, ObjectType, ObjectTypeOptions, ReturnTypeFunc } from '@nestjs/graphql'
 import {
   Column,
   ColumnOptions,
@@ -22,11 +15,7 @@ import { monotonicFactory } from 'ulid'
 /**
  * Create Typeorm Entity Column and Graphql Type Field.
  */
-export function ColumnField(
-  prop: ColumnOptions,
-  field: FieldOptions,
-  graphqlReturnTypeFn: ReturnTypeFunc = () => String,
-) {
+export function ColumnField(prop: ColumnOptions, field: FieldOptions, graphqlReturnTypeFn: ReturnTypeFunc = () => String) {
   return function (target: object, propertyKey: string) {
     Column(prop)(target, propertyKey)
     Field(graphqlReturnTypeFn, field)(target, propertyKey)
@@ -36,10 +25,7 @@ export function ColumnField(
 /**
  * Create Typeorm Entity and Graphql Type.
  */
-export function EntityObjectType(
-  schema: EntityOptions = {},
-  object: ObjectTypeOptions & { name: string } = { name: '' },
-) {
+export function EntityObjectType(schema: EntityOptions = {}, object: ObjectTypeOptions & { name: string } = { name: '' }) {
   return function (target: any) {
     Entity(schema)(target)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

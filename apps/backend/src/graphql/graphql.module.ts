@@ -4,11 +4,18 @@ import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { MenuListQueryResolver } from './query/MenuListQuery'
 import { DbService } from 'src/db/db.service'
+import { OrderListQueryResolver } from './query/OrderListQuery'
+import { SeatListQueryResolver } from './query/SeatListQuery'
+import { MutateMenuResolver } from './mutation/MutateMenu'
+// import { StaffListQueryResolver } from './query/StaffListQuery'
 
 @Module({
   providers: [
     MenuListQueryResolver,
-    // OrderListQueryResolver, MenuMutationResolver, OrderMutationResolver
+    OrderListQueryResolver,
+    // StaffListQueryResolver,
+    SeatListQueryResolver,
+    MutateMenuResolver,
     DbService,
   ],
   imports: [

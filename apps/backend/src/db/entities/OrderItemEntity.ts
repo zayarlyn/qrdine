@@ -18,10 +18,7 @@ export class OrderItem extends BaseEntity {
   @ColumnField({ type: 'int' }, {})
   quantity: number
 
-  @ColumnField(
-    { name: 'menu_price', type: 'decimal', precision: 2, default: null },
-    {},
-  )
+  @ColumnField({ name: 'menu_price', type: 'decimal', precision: 2, default: null }, {})
   menuPrice: number
 
   @ColumnField({ nullable: false, name: 'order_id' }, {})

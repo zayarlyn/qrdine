@@ -1,19 +1,21 @@
-// import { DbService } from '@db/db.service'
-// import { MyGraphQlContext } from '@graphql/graphql.module'
-// import { Args, Context, Query, Resolver } from '@nestjs/graphql'
-// import { BaseListArgs, BaseListQuery } from './BaseListQuery'
-// import { Seat, SeatType } from '@db/entities'
+import { Args, ObjectType, Query, Resolver } from '@nestjs/graphql'
+import { Seat, SeatType } from 'src/db/entities/SeatEntity'
+import { BaseListArgs, BaseListQuery, PaginatedResponse } from './BaseListQuery'
+import { DbService } from 'src/db/db.service'
 
-// @Resolver(() => SeatType)
-// export class SeatListQueryResolver extends BaseListQuery {
-//   constructor(private dbService: DbService) {
-//     super()
-//   }
+@ObjectType()
+export class SeatListType extends PaginatedResponse(SeatType) {}
 
-//   @Query(() => [SeatType], { name: 'SeatList' })
-//   async resolve(@Args() args: BaseListArgs, @Context() context: MyGraphQlContext) {
-//     const { where } = args
-//     const db = await this.dbService.createEm(context.merchantId)
-//     return db.find(Seat, { where })
-//   }
-// }
+@Resolver(() => SeatType)
+export class SeatListQueryResolver extends BaseListQuery {
+  constructor(protected dbService: DbService) {
+    super(dbService)
+  }
+
+  @Query(() => SeatListType, { name: 'seatList' })
+  async resolve(@Args() args: BaseListArgs) {
+    const items = await this.doListQuery(Seat, args)
+
+    return this.formatResponse(items)
+  }
+}

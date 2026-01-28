@@ -10,16 +10,10 @@ export class Order extends BaseEntity {
   @ColumnField({ length: 100 }, {})
   name: string
 
-  @ColumnField(
-    { type: 'decimal', precision: 2, default: 0 },
-    { nullable: true },
-  )
+  @ColumnField({ type: 'decimal', precision: 2, default: 0 }, { nullable: true })
   total: number
 
-  @ColumnField(
-    { type: 'decimal', precision: 2, default: null },
-    { nullable: true },
-  )
+  @ColumnField({ type: 'decimal', precision: 2, default: null }, { nullable: true })
   paid: number
 
   @ColumnField({ name: 'staff_id' }, {})

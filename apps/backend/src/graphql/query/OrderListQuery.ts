@@ -1,21 +1,21 @@
-// import { DbService } from '@db/db.service'
-// import { Order, OrderType } from '@db/entities'
-// import { MyGraphQlContext } from '@graphql/graphql.module'
-// import { Args, Context, Query, Resolver } from '@nestjs/graphql'
-// import { BaseListArgs, BaseListQuery } from './BaseListQuery'
+import { Args, ObjectType, Query, Resolver } from '@nestjs/graphql'
+import { Order, OrderType } from 'src/db/entities/OrderEntity'
+import { BaseListArgs, BaseListQuery, PaginatedResponse } from './BaseListQuery'
+import { DbService } from 'src/db/db.service'
 
-// @Resolver(() => OrderType)
-// export class OrderListQueryResolver extends BaseListQuery {
-//   constructor(private dbService: DbService) {
-//     super()
-//   }
+@ObjectType()
+export class OrderListType extends PaginatedResponse(OrderType) {}
 
-//   @Query(() => [OrderType], { name: 'OrderList' })
-//   async resolve(@Args() args: BaseListArgs, @Context() context: MyGraphQlContext) {
-//     const { where } = args
+@Resolver(() => OrderType)
+export class OrderListQueryResolver extends BaseListQuery {
+  constructor(protected dbService: DbService) {
+    super(dbService)
+  }
 
-//     const db = await this.dbService.createEm(context.merchantId)
+  @Query(() => OrderListType, { name: 'orderList' })
+  async resolve(@Args() args: BaseListArgs) {
+    const items = await this.doListQuery(Order, args)
 
-//     return db.find(Order, { where, relations: { orderItems: true } })
-//   }
-// }
+    return this.formatResponse(items)
+  }
+}
