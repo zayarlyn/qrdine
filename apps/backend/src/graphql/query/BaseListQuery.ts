@@ -2,7 +2,7 @@ import { Inject } from '@nestjs/common'
 import { ArgsType, Field, Int, ObjectType } from '@nestjs/graphql'
 import GraphQLJSON from 'graphql-type-json'
 import { DbService } from 'src/db/db.service'
-import { type EntityTarget } from 'typeorm'
+import { FindManyOptions, ObjectLiteral, type EntityTarget } from 'typeorm'
 
 @ArgsType()
 export class BaseListArgs {
@@ -12,15 +12,15 @@ export class BaseListArgs {
 export class BaseListQuery {
   // constructor(protected dbs: DbService) {}
   @Inject(DbService)
-  private dbService: DbService
+  public dbService: DbService
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async doListQuery(entity: EntityTarget<any>, args: BaseListArgs) {
+  async doListQuery<E extends ObjectLiteral>(entity: EntityTarget<E>, args: BaseListArgs, options: FindManyOptions<E> = {}) {
     // const { where } = args
     console.log(this)
     const db = this.dbService.getDb()
 
-    const items = await db.find(entity, {})
+    const items = await db.find<E>(entity, options)
     return items
   }
 

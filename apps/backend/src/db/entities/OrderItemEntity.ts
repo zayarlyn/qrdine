@@ -13,7 +13,7 @@ export enum OrderItemStatusEnum {
 @EntityObjectType({ name: 'order_item' }, { name: 'OrderItemType' })
 export class OrderItem extends BaseEntity {
   @ColumnField({ type: 'varchar', length: 10 }, {})
-  status: OrderItemStatusEnum
+  status: OrderItemStatusEnum = OrderItemStatusEnum.draft
 
   @ColumnField({ type: 'int' }, {})
   quantity: number

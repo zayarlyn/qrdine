@@ -1,6 +1,8 @@
+import { Inject } from '@nestjs/common'
 import { ArgsType, Field, ID } from '@nestjs/graphql'
 import GraphQLJSON from 'graphql-type-json'
 import _ from 'lodash'
+import { DbService } from 'src/db/db.service'
 // import { GqlValidationEx } from 'src/common/exceptions';
 import { EntityManager, EntityTarget, FindOneOptions } from 'typeorm'
 
@@ -13,7 +15,9 @@ export class BaseMutArgs {
   values: any
 }
 
-export abstract class BaseMutate {
+export abstract class BaseMutation {
+  @Inject(DbService)
+  protected dbService: DbService
   // constructor(public dbService: DbService) {}
   // validate<T>(object: any, schema: z.ZodType): T {
   //   const result = schema.safeParse(object);

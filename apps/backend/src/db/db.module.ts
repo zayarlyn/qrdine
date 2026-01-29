@@ -15,6 +15,7 @@ import { Staff } from './entities/StaffEntity'
         type: 'postgres',
         url: configService.get<string>('db.url'),
         entities: [Menu, Order, OrderItem, Seat, Staff],
+        logging: true,
       }),
       inject: [ConfigService],
     }),

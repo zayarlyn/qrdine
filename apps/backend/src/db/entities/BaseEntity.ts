@@ -28,7 +28,6 @@ export function ColumnField(prop: ColumnOptions, field: FieldOptions, graphqlRet
 export function EntityObjectType(schema: EntityOptions = {}, object: ObjectTypeOptions & { name: string } = { name: '' }) {
   return function (target: any) {
     Entity(schema)(target)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     ObjectType(object.name, object)(target)
   }
 }
@@ -55,5 +54,9 @@ export class BaseEntity extends TypeormBaseEntity {
 
   fill(values: Partial<this>) {
     Object.assign(this, values)
+  }
+
+  static build(options: Partial<any>) {
+    return this.create(options)
   }
 }

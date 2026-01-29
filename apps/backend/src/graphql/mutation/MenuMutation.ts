@@ -2,14 +2,12 @@
 
 import { Args, Mutation, Resolver } from '@nestjs/graphql'
 import { Menu, MenuType } from 'src/db/entities/MenuEntity'
-import { BaseMutArgs, BaseMutate } from './BaseMutate'
-import { DbService } from 'src/db/db.service'
+import { BaseMutArgs, BaseMutation } from './BaseMutation'
 
 @Resolver(() => MenuType)
-export class MutateMenuResolver extends BaseMutate {
-  constructor(private dbService: DbService) {
-    super()
-  }
+export class MenuMutationResolver extends BaseMutation {
+  // @Inject(DbService)
+  // private
 
   @Mutation(() => MenuType, { name: 'menuMutation' })
   resolve(@Args() args: BaseMutArgs) {

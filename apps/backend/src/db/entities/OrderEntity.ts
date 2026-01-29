@@ -30,7 +30,7 @@ export class Order extends BaseEntity {
   @JoinColumn({ name: 'seat_id' })
   seat: Seat
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.order)
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { cascade: ['soft-remove', 'recover'] })
   @Field(() => [OrderItem])
   orderItems: OrderItem[]
 }

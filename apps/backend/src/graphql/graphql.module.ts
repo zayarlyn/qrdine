@@ -2,11 +2,12 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
-import { MenuListQueryResolver } from './query/MenuListQuery'
 import { DbService } from 'src/db/db.service'
+import { MenuMutationResolver } from './mutation/MenuMutation'
+import { MenuListQueryResolver } from './query/MenuListQuery'
 import { OrderListQueryResolver } from './query/OrderListQuery'
 import { SeatListQueryResolver } from './query/SeatListQuery'
-import { MutateMenuResolver } from './mutation/MutateMenu'
+import { CheckoutMutationResolver } from './mutation/CheckoutMutation'
 // import { StaffListQueryResolver } from './query/StaffListQuery'
 
 @Module({
@@ -15,7 +16,8 @@ import { MutateMenuResolver } from './mutation/MutateMenu'
     OrderListQueryResolver,
     // StaffListQueryResolver,
     SeatListQueryResolver,
-    MutateMenuResolver,
+    MenuMutationResolver,
+    CheckoutMutationResolver,
     DbService,
   ],
   imports: [
