@@ -59,7 +59,7 @@ export class CheckoutMutationResolver extends BaseMutation {
           if (item.deletedAt) {
             await existingItem.softRemove()
           } else {
-            existingItem.quantity += item.quantity
+            existingItem.quantity = item.quantity
           }
         } else {
           existingItem = db.build(OrderItem, item)

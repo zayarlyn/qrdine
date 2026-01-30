@@ -17,7 +17,6 @@ export class BaseListQuery {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async doListQuery<E extends ObjectLiteral>(entity: EntityTarget<E>, args: BaseListArgs, options: FindManyOptions<E> = {}) {
     // const { where } = args
-    console.log(this)
     const db = this.dbService.getDb()
 
     const items = await db.find<E>(entity, options)
