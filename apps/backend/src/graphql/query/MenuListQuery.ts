@@ -1,5 +1,5 @@
 import { Args, ObjectType, Query, Resolver } from '@nestjs/graphql'
-import { Menu, MenuType } from 'src/db/entities/MenuEntity'
+import { Menu, MenuType } from '../../db/entities/MenuEntity'
 import { BaseListArgs, BaseListQuery, PaginatedResponse } from './BaseListQuery'
 
 @ObjectType()

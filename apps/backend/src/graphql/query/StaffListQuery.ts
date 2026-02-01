@@ -1,5 +1,5 @@
 import { Args, ObjectType, Query, Resolver } from '@nestjs/graphql'
-import { Staff, StaffType } from 'src/db/entities/StaffEntity'
+import { Staff, StaffType } from '../../db/entities/StaffEntity'
 import { BaseListArgs, BaseListQuery, PaginatedResponse } from './BaseListQuery'
 
 @ObjectType()

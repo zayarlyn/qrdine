@@ -1,8 +1,8 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql'
-import { Order } from 'src/db/entities/OrderEntity'
-import { OrderItem } from 'src/db/entities/OrderItemEntity'
+import { Order } from '../../db/entities/OrderEntity'
+import { OrderItem } from '../../db/entities/OrderItemEntity'
 import { BaseMutArgs, BaseMutation } from './BaseMutation'
-import { Menu } from 'src/db/entities/MenuEntity'
+import { Menu } from '../../db/entities/MenuEntity'
 import _ from 'lodash'
 
 // order [Order]

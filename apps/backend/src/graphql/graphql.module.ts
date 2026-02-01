@@ -2,7 +2,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
-import { DbService } from 'src/db/db.service'
+import { DbService } from '../db/db.service'
 import { MenuMutationResolver } from './mutation/MenuMutation'
 import { MenuListQueryResolver } from './query/MenuListQuery'
 import { OrderListQueryResolver } from './query/OrderListQuery'

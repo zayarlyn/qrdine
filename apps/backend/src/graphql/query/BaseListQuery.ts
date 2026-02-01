@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common'
 import { ArgsType, Field, Int, ObjectType } from '@nestjs/graphql'
 import GraphQLJSON from 'graphql-type-json'
-import { DbService } from 'src/db/db.service'
+import { DbService } from '../../db/db.service'
 import { FindManyOptions, ObjectLiteral, type EntityTarget } from 'typeorm'
 
 @ArgsType()

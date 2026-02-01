@@ -2,7 +2,7 @@ import { Inject } from '@nestjs/common'
 import { ArgsType, Field, ID } from '@nestjs/graphql'
 import GraphQLJSON from 'graphql-type-json'
 import _ from 'lodash'
-import { DbService } from 'src/db/db.service'
+import { DbService } from '../../db/db.service'
 // import { GqlValidationEx } from 'src/common/exceptions';
 import { EntityManager, EntityTarget, FindOneOptions } from 'typeorm'
 

@@ -1,5 +1,5 @@
 import { Args, ObjectType, Query, Resolver } from '@nestjs/graphql'
-import { Seat, SeatType } from 'src/db/entities/SeatEntity'
+import { Seat, SeatType } from '../../db/entities/SeatEntity'
 import { BaseListArgs, BaseListQuery, PaginatedResponse } from './BaseListQuery'
 
 @ObjectType()

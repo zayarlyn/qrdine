@@ -1,7 +1,7 @@
 // import { GqlValidationEx } from 'src/common/exceptions';
 
 import { Args, Mutation, Resolver } from '@nestjs/graphql'
-import { Menu, MenuType } from 'src/db/entities/MenuEntity'
+import { Menu, MenuType } from '../../db/entities/MenuEntity'
 import { BaseMutArgs, BaseMutation } from './BaseMutation'
 
 @Resolver(() => MenuType)
