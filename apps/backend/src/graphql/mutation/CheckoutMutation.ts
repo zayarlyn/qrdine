@@ -65,9 +65,12 @@ export class CheckoutMutationResolver extends BaseMutation {
           existingItem = db.build(OrderItem, item)
         }
         itemsToSave.push(existingItem)
+        delete values.orderItems
+        delete values.total
       }
-
       await db.save(OrderItem, itemsToSave)
+
+      order.fill(values)
       await db.save(Order, order)
 
       return order

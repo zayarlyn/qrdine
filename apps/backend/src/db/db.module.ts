@@ -15,7 +15,7 @@ import { Staff } from './entities/StaffEntity'
         type: 'postgres',
         url: configService.get<string>('db.url'),
         entities: [Menu, Order, OrderItem, Seat, Staff],
-        logging: true,
+        // logging: true,
       }),
       inject: [ConfigService],
     }),
@@ -23,6 +23,6 @@ import { Staff } from './entities/StaffEntity'
 })
 export class DbModule implements OnModuleInit {
   onModuleInit() {
-    console.log('🚀 Database module initialized')
+    // console.log('🚀 Database module initialized')
   }
 }

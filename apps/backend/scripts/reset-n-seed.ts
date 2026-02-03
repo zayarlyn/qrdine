@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import 'dotenv/config'
+import { config } from 'dotenv'
 import { readFileSync } from 'fs'
 import _ from 'lodash'
 import { join } from 'path'
@@ -12,13 +12,15 @@ import { Staff } from '../src/db/entities/StaffEntity'
 import { DataSource, QueryRunner } from 'typeorm'
 import { monotonicFactory } from 'ulid'
 
+config({ path: process.env.ENV_FILE_PATH })
+
 // const envFilePath = process.env.ENV_FILE_PATH!
 // config({ path: envFilePath })
 
 const getDataSource = async ({ db }: { db: string }) => {
   const dataSource = new DataSource({
     type: 'postgres',
-    url: process.env.DB_URL!.replace('qrdine', db),
+    url: process.env.DB_URL!.replace(process.env.DB_NAME!, db),
     entities: [Menu, Staff, Seat, Order, OrderItem],
   })
   await dataSource.initialize()
@@ -49,7 +51,7 @@ async function seed({ ds }: { ds: DataSource }) {
   console.log('Order:', order.name)
 }
 
-export async function resetNSeed({ dbName = 'qrdine' }: { dbName?: string } = {}) {
+export async function resetNSeed({ dbName }: { dbName: string }) {
   const sql = readFileSync(join(cwd(), '/scripts/tenant.sql'), 'utf-8')
 
   const [postgresDs, postgresQr] = await getDataSource({ db: 'postgres' })
@@ -63,11 +65,11 @@ export async function resetNSeed({ dbName = 'qrdine' }: { dbName?: string } = {}
 
   // cleanup
   await Promise.all([postgresDs, ds].map((ds) => ds.destroy()))
-  console.log('\n>>>>>> All done! <<<<<<\n')
+  console.log('\n>>>>>> All done! <<<<<<\n\n\n')
 }
 
 // check if called directly from command line
 const FILE = require.main?.filename
 const isCLI = FILE === process.argv[1]
 
-if (isCLI) void resetNSeed()
+if (isCLI) void resetNSeed({ dbName: process.env.DB_NAME! })

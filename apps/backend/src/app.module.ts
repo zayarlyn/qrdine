@@ -10,6 +10,7 @@ import { MyGraphQLModule } from './graphql/graphql.module'
     ConfigModule.forRoot({
       isGlobal: true,
       load: [loadAppConfig, loadDbConfig],
+      envFilePath: process.env.ENV_FILE_PATH,
     }),
     DbModule,
     MyGraphQLModule,

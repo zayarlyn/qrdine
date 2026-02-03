@@ -3,13 +3,12 @@ import { type NestApplication } from '@nestjs/core'
 import { Test } from '@nestjs/testing'
 import { print } from 'graphql'
 import { gql } from 'graphql-tag'
-import { AppModule } from '../src/app.module'
-import { Menu } from '../src/db/entities/MenuEntity'
 import request from 'supertest'
+import { AppModule } from '../src/app.module'
+import { Order } from '../src/db/entities/OrderEntity'
 
-describe('MenuMutation', () => {
-  let app: NestApplication, menu1: Menu
-  // , tenant: Tenant, tenantId: string
+describe('CheckoutMutation', () => {
+  let app: NestApplication, order1: Order
 
   beforeAll(async () => {
     const appModuleRef = await Test.createTestingModule({ imports: [AppModule] }).compile()
@@ -27,13 +26,13 @@ describe('MenuMutation', () => {
     await app.close()
   })
 
-  it('Should create and return a menu', async () => {
+  it('Should create and return a order', async () => {
     const reply = await request(app.getHttpServer())
-      .post(`/graphql?t=${process.env.TENANT_ID}`)
+      .post(`/graphql`)
       .send({
         query: print(gql`
-          mutation menuMutation($values: JSON!) {
-            menuMutation(values: $values) {
+          mutation checkoutMutation($values: JSON!) {
+            checkoutMutation(values: $values) {
               id
             }
           }
@@ -43,58 +42,58 @@ describe('MenuMutation', () => {
         },
       })
 
-    menu1 = reply.body.data.menuMutation
+    order1 = reply.body.data.checkoutMutation
 
     expect(reply.status).toBe(200)
-    expect(menu1.id).toBeDefined()
+    expect(order1.id).toBeDefined()
   })
 
-  it('Should update and return a menu', async () => {
-    const newName = faker.food.dish(),
-      newPrice = faker.commerce.price()
+  it('Should update and return a order', async () => {
+    const newName = faker.food.dish() + ' Order',
+      newPaid = faker.commerce.price()
     const reply = await request(app.getHttpServer())
-      .post(`/graphql?t=${process.env.TENANT_ID}`)
+      .post(`/graphql`)
       // .set('Cookie', authCookies)
       .send({
         query: print(gql`
-          mutation MenuMutation($id: ID!, $values: JSON!) {
-            menuMutation(id: $id, values: $values) {
+          mutation CheckoutMutation($id: ID!, $values: JSON!) {
+            checkoutMutation(id: $id, values: $values) {
               id
               name
-              price
+              paid
             }
           }
         `),
         variables: {
-          id: menu1.id,
-          values: { name: newName, price: newPrice },
+          id: order1.id,
+          values: { name: newName, paid: newPaid },
         },
       })
 
     expect(reply.status).toBe(200)
-    expect(reply.body.data.menuMutation).toMatchObject({ name: newName, price: newPrice })
+    expect(reply.body.data.checkoutMutation).toMatchObject({ name: newName, paid: newPaid })
   })
 
-  it('Should soft delete a menu', async () => {
+  it('Should soft delete a order', async () => {
     const reply = await request(app.getHttpServer())
-      .post(`/graphql?t=${process.env.TENANT_ID}`)
+      .post(`/graphql`)
       // .set('Cookie', authCookies)
       .send({
         query: print(gql`
-          mutation menuMutation($id: ID!, $values: JSON!) {
-            menuMutation(id: $id, values: $values) {
+          mutation checkoutMutation($id: ID!, $values: JSON!) {
+            checkoutMutation(id: $id, values: $values) {
               id
               deletedAt
             }
           }
         `),
         variables: {
-          id: menu1.id,
+          id: order1.id,
           values: { deletedAt: new Date().toISOString() },
         },
       })
 
     expect(reply.status).toBe(200)
-    expect(reply.body.data.menuMutation.deletedAt).toBeDefined()
+    expect(reply.body.data.checkoutMutation.deletedAt).toBeDefined()
   })
 })
