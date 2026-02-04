@@ -2,8 +2,8 @@
 	"files.exclude": {
 		"**/node_modules": true,
 		"**/package-lock.json": true,
-		"**/dist": true,
-		"**/tsconfig.**": true
+		"**/dist": true
+		// "**/tsconfig.**": true
 		// "**/eslint.**": true,
 		// "**/.prettierrc": true
 	}

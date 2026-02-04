@@ -2,6 +2,7 @@ import { JoinColumn, ManyToOne } from 'typeorm'
 import { BaseEntity, ColumnField, EntityObjectType } from './BaseEntity'
 import { Menu } from './MenuEntity'
 import { Order } from './OrderEntity'
+import { Float } from '@nestjs/graphql'
 
 export enum OrderItemStatusEnum {
   draft = 'draft',
@@ -18,7 +19,7 @@ export class OrderItem extends BaseEntity {
   @ColumnField({ type: 'int' }, {})
   quantity: number
 
-  @ColumnField({ name: 'menu_price', type: 'decimal', precision: 2, default: null }, {})
+  @ColumnField({ name: 'menu_price', type: 'decimal', precision: 2, default: null }, {}, () => Float)
   menuPrice: number
 
   @ColumnField({ nullable: false, name: 'order_id' }, {})

@@ -18,6 +18,7 @@ config({ path: process.env.ENV_FILE_PATH })
 // config({ path: envFilePath })
 
 const getDataSource = async ({ db }: { db: string }) => {
+  console.log({ db })
   const dataSource = new DataSource({
     type: 'postgres',
     url: process.env.DB_URL!.replace(process.env.DB_NAME!, db),
@@ -39,8 +40,8 @@ async function seed({ ds }: { ds: DataSource }) {
 
   const sampleMenus = _.range(3).map(() => ({ id: ulid(), name: faker.food.dish(), price: faker.commerce.price() }))
   const menus = await em.save(Menu, sampleMenus)
-  const staff = await em.save(Staff, { id: ulid(), name: 'Ning Ning', userId: ulid() })
-  const seat = await em.save(Seat, { id: ulid(), name: 'Table 1' })
+  const staff = await em.save(Staff, { id: '01KGHDXHM1QPBQDMAVXV0E9RN3', name: 'Ning Ning', userId: ulid() })
+  const seat = await em.save(Seat, { id: '01KGHE8GRTK8S5ZQ3CC1MMZVDF', name: 'Table 1' })
 
   const order = await em.save(Order, { id: ulid(), name: 'Order 1', staffId: staff.id, seatId: seat.id, total: 0, paid: 0 })
 

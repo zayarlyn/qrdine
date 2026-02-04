@@ -8,13 +8,13 @@ import { MenuListQueryResolver } from './query/MenuListQuery'
 import { OrderListQueryResolver } from './query/OrderListQuery'
 import { SeatListQueryResolver } from './query/SeatListQuery'
 import { CheckoutMutationResolver } from './mutation/CheckoutMutation'
-// import { StaffListQueryResolver } from './query/StaffListQuery'
+import { StaffListQueryResolver } from './query/StaffListQuery'
 
 @Module({
   providers: [
     MenuListQueryResolver,
     OrderListQueryResolver,
-    // StaffListQueryResolver,
+    StaffListQueryResolver,
     SeatListQueryResolver,
     MenuMutationResolver,
     CheckoutMutationResolver,

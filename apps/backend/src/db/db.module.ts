@@ -15,6 +15,11 @@ import { Staff } from './entities/StaffEntity'
         type: 'postgres',
         url: configService.get<string>('db.url'),
         entities: [Menu, Order, OrderItem, Seat, Staff],
+        // TODO: experiment different behaviors
+        invalidWhereValuesBehavior: {
+          null: 'sql-null',
+          undefined: 'ignore',
+        },
         // logging: true,
       }),
       inject: [ConfigService],

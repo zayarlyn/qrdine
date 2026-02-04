@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
-import { DataSource, EntityManager, EntityTarget, FindOneOptions, FindOptionsWhere, ObjectLiteral, TypeORMError } from 'typeorm'
+import { DataSource, EntityManager, EntityTarget, FindOneOptions, ObjectLiteral, TypeORMError } from 'typeorm'
 
 function extendManager(manager: EntityManager): ExtendedEntityManager {
   const m = manager as ExtendedEntityManager
@@ -11,10 +11,10 @@ function extendManager(manager: EntityManager): ExtendedEntityManager {
   //   return drafts
   // }
 
-  m.findOneOrCreate = async function (entity, where, options) {
-    const item = where ? await m.findOne(entity, { ...options, where }) : m.build(entity)
+  m.findOneByIdOrCreate = async function (entity, id, options) {
+    const item = id ? await m.findOne(entity, { ...options, where: { id } as any }) : m.build(entity)
 
-    if (!item) throw new Error('Order not found')
+    if (!item) throw new Error('Entity not found')
 
     return item
   }
@@ -59,12 +59,12 @@ export class DbService {
 
 type TFindOneOrCreate = <Entity extends ObjectLiteral>(
   entityClass: EntityTarget<Entity>,
-  where: FindOptionsWhere<Entity>,
+  id?: string,
   options?: FindOneOptions<Entity>,
 ) => Promise<Entity>
 
 export type ExtendedEntityManager = EntityManager & {
   build: typeof EntityManager.prototype.create
   // bulkBuild: TBulkBuild
-  findOneOrCreate: TFindOneOrCreate
+  findOneByIdOrCreate: TFindOneOrCreate
 }

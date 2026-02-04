@@ -44,36 +44,45 @@ export class CheckoutMutationResolver extends BaseMutation {
       const { id, values } = args
       const deletedAt = _.get(values, 'deletedAt')
 
-      const order = await db.findOneOrCreate(Order, { id }, { withDeleted: true, relations: { orderItems: true } })
+      const order = await db.findOneByIdOrCreate(Order, id, { relations: { orderItems: true } })
       await this.handleDeletedAt(order, deletedAt)
 
       const menus = await db.find(Menu, { withDeleted: false })
 
       const itemsToSave: OrderItem[] = []
+      let total = 0
       for (const item of values.orderItems || []) {
-        if (menus.findIndex((m) => m.id === item.menuId) === -1) {
-          throw new Error(`Menu item with id ${item.menuId} not found`)
-        }
+        const menu = menus.find((m) => m.id === item.menuId)
+        if (!menu) throw new Error(`Menu item with id ${item.menuId} not found`)
+
         let existingItem = order.orderItems.find((oi) => oi.menuId === item.menuId)
         if (existingItem) {
-          if (item.deletedAt) {
+          if (item.deletedAt || item.quantity <= 0) {
             await existingItem.softRemove()
           } else {
             existingItem.quantity = item.quantity
           }
         } else {
-          existingItem = db.build(OrderItem, item)
+          existingItem = db.build(OrderItem, { ...item, menuPrice: menu.price, orderId: order.id })
         }
         itemsToSave.push(existingItem)
-        delete values.orderItems
-        delete values.total
+        total += menu.price * item.quantity
       }
-      await db.save(OrderItem, itemsToSave)
 
+      if (itemsToSave.length > 0) {
+        await db.save(OrderItem, itemsToSave)
+      }
+
+      values.total = total
       order.fill(values)
-      await db.save(Order, order)
+      await order.save()
 
-      return order
+      // cannot reload() in transaction, so manually fetch updated order
+      return await db.findOne(Order, {
+        withDeleted: true,
+        where: { id: order.id },
+        relations: { orderItems: true },
+      })
     })
   }
 }
