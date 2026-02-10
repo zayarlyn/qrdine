@@ -45,6 +45,13 @@ export class CheckoutMutationResolver extends BaseMutation {
       const deletedAt = _.get(values, 'deletedAt')
 
       const order = await db.findOneByIdOrCreate(Order, id, { relations: { orderItems: true } })
+
+      // FIXME
+      if (!order.createdAt) {
+        order.fill({ ...values, orderItems: undefined })
+        await order.save()
+      }
+
       await this.handleDeletedAt(order, deletedAt)
 
       const menus = await db.find(Menu, { withDeleted: false })
@@ -55,7 +62,7 @@ export class CheckoutMutationResolver extends BaseMutation {
         const menu = menus.find((m) => m.id === item.menuId)
         if (!menu) throw new Error(`Menu item with id ${item.menuId} not found`)
 
-        let existingItem = order.orderItems.find((oi) => oi.menuId === item.menuId)
+        let existingItem = (order.orderItems || []).find((oi) => oi.menuId === item.menuId)
         if (existingItem) {
           if (item.deletedAt || item.quantity <= 0) {
             await existingItem.softRemove()

@@ -39,7 +39,7 @@ describe('MenuMutation', () => {
           }
         `),
         variables: {
-          values: { name: faker.food.dish(), price: faker.commerce.price() },
+          values: { name: faker.food.dish(), price: +faker.commerce.price() },
         },
       })
 
@@ -51,7 +51,7 @@ describe('MenuMutation', () => {
 
   it('Should update and return a menu', async () => {
     const newName = faker.food.dish(),
-      newPrice = faker.commerce.price()
+      newPrice = +faker.commerce.price()
     const reply = await request(app.getHttpServer())
       .post(`/graphql?t=${process.env.TENANT_ID}`)
       // .set('Cookie', authCookies)

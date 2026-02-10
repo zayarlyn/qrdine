@@ -42,6 +42,7 @@ export class DbService {
       return result
     } catch (err: any) {
       await qr.rollbackTransaction()
+      console.log(err)
       // Wrap database errors appropriately
       if (err instanceof TypeORMError) {
         throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR)

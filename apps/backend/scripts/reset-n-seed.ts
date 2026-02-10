@@ -38,7 +38,7 @@ const ulid = monotonicFactory()
 async function seed({ ds }: { ds: DataSource }) {
   const em = ds.createEntityManager()
 
-  const sampleMenus = _.range(3).map(() => ({ id: ulid(), name: faker.food.dish(), price: faker.commerce.price() }))
+  const sampleMenus = _.range(11).map(() => ({ id: ulid(), name: faker.food.dish(), price: faker.commerce.price() }))
   const menus = await em.save(Menu, sampleMenus)
   const staff = await em.save(Staff, { id: '01KGHDXHM1QPBQDMAVXV0E9RN3', name: 'Ning Ning', userId: ulid() })
   const seat = await em.save(Seat, { id: '01KGHE8GRTK8S5ZQ3CC1MMZVDF', name: 'Table 1' })
